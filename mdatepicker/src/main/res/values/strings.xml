@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MDatePicker</string>
+    <string name="strDateSelect">日期选择</string>
+    <string name="strDateYear">年</string>
+    <string name="strDateMonth">月</string>
+    <string name="strDateDay">日</string>
+    <string name="strDateConfirm">确定</string>
+    <string name="strDateCancel">取消</string>
+    <string name="strDateHour">时</string>
+    <string name="strDateMinute">分</string>
+</resources>
