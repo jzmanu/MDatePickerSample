@@ -83,3 +83,8 @@ MPickView|MDatePickerDialog
 - 其他可能影响使用的问题
 
 欢迎在 [issue](https://github.com/jzmanu/MDatePickerSample/issues) 上反映问题，以便及时修复。
+
+### 作者
+
+可以关注公众号：jzman-blog，一起交流学习。
+![image](https://upload-images.jianshu.io/upload_images/2494569-f1ae978df99e1007.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600/format/webp)
