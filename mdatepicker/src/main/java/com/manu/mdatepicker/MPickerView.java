@@ -347,7 +347,7 @@ public class MPickerView extends View {
         }
     }
 
-    class MTimerTask extends TimerTask {
+    static class MTimerTask extends TimerTask {
         Handler handler;
 
         MTimerTask(Handler handler) {

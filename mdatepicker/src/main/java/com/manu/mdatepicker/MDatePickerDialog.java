@@ -191,13 +191,12 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
             mpvDialogHour.setVisibility(View.VISIBLE);
             mpvDialogMinute.setVisibility(View.VISIBLE);
             float weight = -0.4f * mContext.getResources().getDisplayMetrics().density + 2.6f;
+            Log.i(TAG,"weight:"+weight);
             mpvDialogYear.setLayoutParams(
                     new LinearLayout.LayoutParams(0, dpToPx(mContext, 160), weight));
         } else {
             mpvDialogHour.setVisibility(View.GONE);
             mpvDialogMinute.setVisibility(View.GONE);
-            mpvDialogYear.setLayoutParams(
-                    new LinearLayout.LayoutParams(0, dpToPx(mContext, 160), 1.0f));
         }
 
         if (mConfirmTextSize != 0.0f && mConfirmTextSize != -1.0f) {
@@ -227,17 +226,17 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
     public void onSelect(View v, String data) {
         int i = v.getId();
         if (i == R.id.mpvDialogYear) {
-            mCurrentYear = Integer.valueOf(data);
+            mCurrentYear = Integer.parseInt(data);
             updateDay(mCurrentYear, mCurrentMonth);
         } else if (i == R.id.mpvDialogMonth) {
-            mCurrentMonth = Integer.valueOf(data);
+            mCurrentMonth = Integer.parseInt(data);
             updateDay(mCurrentYear, mCurrentMonth);
         } else if (i == R.id.mpvDialogDay) {
-            mCurrentDay = Integer.valueOf(data);
+            mCurrentDay = Integer.parseInt(data);
         } else if (i == R.id.mpvDialogHour) {
-            mCurrentHour = Integer.valueOf(data);
+            mCurrentHour = Integer.parseInt(data);
         } else if (i == R.id.mpvDialogMinute) {
-            mCurrentMinute = Integer.valueOf(data);
+            mCurrentMinute = Integer.parseInt(data);
         }
         Log.i(TAG,  mCurrentYear + "-" + mCurrentMonth + "-" + mCurrentDay + "-" + mCurrentHour + "-" + mCurrentMinute);
     }

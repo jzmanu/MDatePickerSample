@@ -50,7 +50,7 @@
 
         <com.manu.mdatepicker.MPickerView
             android:id="@+id/mpvDialogYear"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="160dp"
             android:layout_weight="1"
             tools:ignore="RtlSymmetry" />

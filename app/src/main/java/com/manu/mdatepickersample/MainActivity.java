@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         MDatePickerDialog dialog = new MDatePickerDialog.Builder(this)
                 .setCanceledTouchOutside(true)
                 .setGravity(Gravity.BOTTOM)
-                .setSupportTime(false)
+                .setSupportTime(true)
                 .setTwelveHour(true)
                 .setCanceledTouchOutside(false)
                 .setOnDateResultListener(new MDatePickerDialog.OnDateResultListener() {
