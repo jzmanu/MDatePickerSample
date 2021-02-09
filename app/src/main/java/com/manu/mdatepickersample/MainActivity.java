@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        Log.i(TAG,"--density--"+dm.density);
-        Log.i(TAG,"--widthPixels--"+dm.widthPixels);
-        Log.i(TAG,"--heightPixels--"+dm.heightPixels);
+        Log.i(TAG, "--density--" + dm.density);
+        Log.i(TAG, "--widthPixels--" + dm.widthPixels);
+        Log.i(TAG, "--heightPixels--" + dm.heightPixels);
     }
 
     public void btnClickDateBottom(View view) {
-        MDatePickerDialog dialog = new MDatePickerDialog.Builder(this)
+        MDatePickerDialog.create(this)
                 .setCanceledTouchOutside(true)
                 .setGravity(Gravity.BOTTOM)
                 .setSupportTime(true)
@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, dateFormat.format(new Date(date)), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .build();
-        dialog.show();
+                .build()
+                .show();
     }
 
     public void btnClickDateCenter(View view) {
-        MDatePickerDialog dialog = new MDatePickerDialog.Builder(this)
+        MDatePickerDialog.create(this)
                 .setCanceledTouchOutside(true)
                 .setSupportTime(true)
                 .setTwelveHour(true)
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, dateFormat.format(new Date(date)), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .build();
-        dialog.show();
+                .build()
+                .show();
     }
 
 

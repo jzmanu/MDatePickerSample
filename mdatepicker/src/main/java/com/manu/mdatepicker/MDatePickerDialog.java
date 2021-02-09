@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -73,6 +74,10 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
         setContentView(R.layout.dialog_date_picker);
         initView();
         initData();
+    }
+
+    public static Builder create(Context context){
+        return new Builder(context);
     }
 
     private void initView() {
@@ -309,6 +314,7 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
         private int mConfirmTextColor;
         private int mCancelTextColor;
         private OnDateResultListener mOnDateResultListener;
+        private MDatePickerDialog mDatePickerDialog;
 
         public Builder(Context mContext) {
             this.mContext = mContext;
@@ -372,9 +378,15 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
         }
 
         public MDatePickerDialog build() {
-            MDatePickerDialog dialog = new MDatePickerDialog(mContext);
-            applyConfig(dialog);
-            return dialog;
+            mDatePickerDialog = new MDatePickerDialog(mContext);
+            applyConfig(mDatePickerDialog);
+            return mDatePickerDialog;
+        }
+
+        public void show(){
+            if (mDatePickerDialog == null)
+                throw new NullPointerException("please call build to create MDatePickerDialog");
+            mDatePickerDialog.show();
         }
     }
 
