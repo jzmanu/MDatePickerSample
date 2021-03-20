@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -19,32 +17,13 @@ android {
         }
     }
     buildToolsVersion '28.0.3'
-
-//    lintOptions {
-//        abortOnError false
-//    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
-
-publish{
-    //bintray.com的用户名
-    userOrg = 'jzman'
-    //一般写包名
-    groupId = 'com.manu'
-    //项目名称
-    artifactId = 'MDatePicker'
-    //版本号
-    publishVersion = '1.0.1'
-    //项目描述
-    desc = 'a goog date picker'
-    //项目网址
-    website = 'https://github.com/jzmanu/MDatePickerSample'
 }
