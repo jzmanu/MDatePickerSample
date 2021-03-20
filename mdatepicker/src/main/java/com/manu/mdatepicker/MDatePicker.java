@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,8 +26,8 @@ import static com.manu.mdatepicker.Util.getScreenWidth;
  * Powered by jzman.
  * Created on 2019/1/3 0003.
  */
-public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectListener, View.OnClickListener {
-    private static final String TAG = MDatePickerDialog.class.getSimpleName();
+public class MDatePicker extends Dialog implements MPickerView.OnSelectListener, View.OnClickListener {
+    private static final String TAG = MDatePicker.class.getSimpleName();
     private static final int SPACE = 5;
 
     private Context mContext;
@@ -64,7 +63,7 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
     private int mCancelTextColor;
     private OnDateResultListener mOnDateResultListener;
 
-    private MDatePickerDialog(@NonNull Context context) {
+    private MDatePicker(@NonNull Context context) {
         super(context);
     }
 
@@ -72,15 +71,15 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_date_picker);
-        initView();
-        initData();
+        onView();
+        onData();
     }
 
     public static Builder create(Context context){
         return new Builder(context);
     }
 
-    private void initView() {
+    private void onView() {
         mpvDialogDay = findViewById(R.id.mpvDialogDay);
         mpvDialogYear = findViewById(R.id.mpvDialogYear);
         mpvDialogMonth = findViewById(R.id.mpvDialogMonth);
@@ -107,7 +106,7 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
         tvDialogBottomConfirm.setOnClickListener(this);
     }
 
-    private void initData() {
+    private void onData() {
         Calendar mCalendar = Calendar.getInstance();
         int mMaxYear = mCalendar.get(Calendar.YEAR) + SPACE;
         int mMinYear = mCalendar.get(Calendar.YEAR) - SPACE;
@@ -191,6 +190,8 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
             tvDialogTopConfirm.setVisibility(View.GONE);
             llDialog.setBackgroundResource(R.drawable.dialog_date_picker_center_bg);
         }
+
+        window.setBackgroundDrawableResource(android.R.color.white);
 
         if (isSupportTime) {
             mpvDialogHour.setVisibility(View.VISIBLE);
@@ -303,7 +304,7 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
     }
 
     public static class Builder {
-        private Context mContext;
+        private final Context mContext;
         private String mTitle;
         private int mGravity;
         private boolean isCanceledTouchOutside;
@@ -314,7 +315,6 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
         private int mConfirmTextColor;
         private int mCancelTextColor;
         private OnDateResultListener mOnDateResultListener;
-        private MDatePickerDialog mDatePickerDialog;
 
         public Builder(Context mContext) {
             this.mContext = mContext;
@@ -362,7 +362,7 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
             return this;
         }
 
-        private void applyConfig(MDatePickerDialog dialog) {
+        private void applyConfig(MDatePicker dialog) {
             if (this.mGravity == 0) this.mGravity = Gravity.CENTER;
             dialog.mContext = this.mContext;
             dialog.mTitle = this.mTitle;
@@ -377,16 +377,10 @@ public class MDatePickerDialog extends Dialog implements MPickerView.OnSelectLis
             dialog.mOnDateResultListener = this.mOnDateResultListener;
         }
 
-        public MDatePickerDialog build() {
-            mDatePickerDialog = new MDatePickerDialog(mContext);
-            applyConfig(mDatePickerDialog);
-            return mDatePickerDialog;
-        }
-
-        public void show(){
-            if (mDatePickerDialog == null)
-                throw new NullPointerException("please call build to create MDatePickerDialog");
-            mDatePickerDialog.show();
+        public MDatePicker build() {
+            MDatePicker dialog = new MDatePicker(mContext);
+            applyConfig(dialog);
+            return dialog;
         }
     }
 

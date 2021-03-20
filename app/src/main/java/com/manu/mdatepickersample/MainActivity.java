@@ -2,14 +2,11 @@ package com.manu.mdatepickersample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.manu.mdatepicker.MDatePickerDialog;
+import com.manu.mdatepicker.MDatePicker;
 import com.manu.mdatepicker.MPickerView;
 
 import java.text.SimpleDateFormat;
@@ -41,22 +38,15 @@ public class MainActivity extends AppCompatActivity {
         list.add("2024");
         mPickerView.setText("年");
         mPickerView.setData(list);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        Log.i(TAG, "--density--" + dm.density);
-        Log.i(TAG, "--widthPixels--" + dm.widthPixels);
-        Log.i(TAG, "--heightPixels--" + dm.heightPixels);
     }
 
     public void btnClickDateBottom(View view) {
-        MDatePickerDialog.create(this)
+        MDatePicker.create(this)
                 .setCanceledTouchOutside(true)
                 .setGravity(Gravity.BOTTOM)
                 .setSupportTime(true)
                 .setTwelveHour(true)
-                .setCanceledTouchOutside(false)
-                .setOnDateResultListener(new MDatePickerDialog.OnDateResultListener() {
+                .setOnDateResultListener(new MDatePicker.OnDateResultListener() {
                     @Override
                     public void onDateResult(long date) {
                         Calendar calendar = Calendar.getInstance();
@@ -71,12 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnClickDateCenter(View view) {
-        MDatePickerDialog.create(this)
+        MDatePicker.create(this)
                 .setCanceledTouchOutside(true)
                 .setSupportTime(true)
                 .setTwelveHour(true)
-                .setCanceledTouchOutside(false)
-                .setOnDateResultListener(new MDatePickerDialog.OnDateResultListener() {
+                .setOnDateResultListener(new MDatePicker.OnDateResultListener() {
                     @Override
                     public void onDateResult(long date) {
                         Calendar calendar = Calendar.getInstance();
@@ -89,6 +78,4 @@ public class MainActivity extends AppCompatActivity {
                 .build()
                 .show();
     }
-
-
 }

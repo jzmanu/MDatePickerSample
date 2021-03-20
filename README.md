@@ -1,6 +1,9 @@
-[ ![Download](https://api.bintray.com/packages/jzman/maven/MDatePicker/images/download.svg?version=1.0.1) ](https://bintray.com/jzman/maven/MDatePicker/1.0.1/link)
+[![](https://jitpack.io/v/jzmanu/MDatePickerSample.svg)](https://jitpack.io/#jzmanu/MDatePickerSample)
 
-MDatePickerDialog 常用设置如下：
+#### 基本属性
+
+
+MDatePicker 基本属性如下：
 
 设置| 对应属性 |设置方法|默认值
 ---|---|---|---
@@ -12,80 +15,63 @@ MDatePickerDialog 常用设置如下：
 
 ### 使用
 
-
-##### gradle
+1. 在 build.gradle 文件中引入：
 
 
 ```java
-compile 'com.manu:MDatePicker:1.0.1'
+implementation 'com.github.jzmanu:MDatePickerSample:v1.0.2'
 ```
 
-##### maven
+2. MDatePicker 的使用和普通的 Dialog 一样，参考如下：
 
 ```java
-<dependency>
-	<groupId>com.manu</groupId>
-	<artifactId>MDatePicker</artifactId>
-	<version>1.0.1</version>
-	<type>pom</type>
-</dependency>
-```
-
-##### ivy
-
-
-```java
-<dependency org="com.manu" name="MDatePicker" rev="1.0.1">
-	<artifact name="MDatePicker" ext="pom"></artifact>
-</dependency>
-```
-
-MDatePickerDialog 的使用和普通的 Dialog 一样，参考如下：
-
-```java
-MDatePickerDialog dialog = new MDatePickerDialog.Builder(this)
+MDatePicker.create(this)
     //附加设置(非必须,有默认值)
     .setCanceledTouchOutside(true)
     .setGravity(Gravity.BOTTOM)
     .setSupportTime(false)
     .setTwelveHour(true)
-    .setCanceledTouchOutside(false)
     //结果回调(必须)
     .setOnDateResultListener(new MDatePickerDialog.OnDateResultListener() {
         @Override
         public void onDateResult(long date) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(date);
-            SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-            dateFormat.applyPattern("yyyy-MM-dd HH:mm");
-            Toast.makeText(MainActivity.this, dateFormat.format(new Date(date)), Toast.LENGTH_SHORT).show();
+            // date
         }
     })
-    .build();
-dialog.show();
+    .build()
+    .show();
 ```
 ### 显示效果
 
-MPickView|MDatePickerDialog
----|---
-![MPickView](https://github.com/jzmanu/MDatePickerSample/blob/master/screenshot/MPickView.gif)|![MDatePickerDialog](https://github.com/jzmanu/MDatePickerSample/blob/master/screenshot/MDatePickerDialog.gif)
+1. MPickView
+
+![MPickView](https://cdn.nlark.com/yuque/0/2021/gif/644330/1616259412628-34df5914-095e-4ef6-8afe-4d9fb128054e.gif)
+
+2. MDatePicker
+
+![MDatePicker](https://cdn.nlark.com/yuque/0/2021/gif/644330/1616259411686-8f8bec0f-fc98-4cbb-99c2-03ae7b18965b.gif)
 
 ### 版本记录
 
-#### 1.0.0
+#### v1.0.0
 
-草稿版本，可以使用不过有 bug.
+- 发布初始版本
 
-#### 1.0.1
+#### v1.0.1
 
-- 修复日期回调月份错误 Bug
-- 修年月日时分秒都显示时。低屏幕密度手机显示不全的问题
-- 其他可能影响使用的问题
+- 【修复】日期回调月份错误
+- 【修复】修年月日时分秒都显示时
+- 【修复】低屏幕密度手机显示不全的问题
+- 【修复】其他可能影响使用的问题
+
+#### v1.0.2
+
+- 【修复】底部显示时不能铺满全屏
+- 【优化】优化调用方式
 
 欢迎在 [issue](https://github.com/jzmanu/MDatePickerSample/issues) 上反映问题，以便及时修复。
 
-### 作者
+### 联系作者
 
-可以关注公众号：jzman-blog，一起交流学习。
-![image](https://upload-images.jianshu.io/upload_images/2494569-f1ae978df99e1007.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/600/format/webp)
-
+个人微信公众号 **躬行之** 。
+![image](https://cdn.nlark.com/yuque/0/2021/png/644330/1616259548010-7b8a24c3-393f-4b26-aa26-d01c28d0f538.png)

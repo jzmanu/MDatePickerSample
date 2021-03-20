@@ -31,18 +31,18 @@ public class MPickerView extends View {
 
     public static final float SPEED = 5;
     //行距与mTextSizeNormal之比，保证View内显示的内容在适当的位置
-    private float RATE = 2.7f;
+    private final float RATE = 2.7f;
 
-    private Paint mPaintNormal;
-    private Paint mPaintSelect;
-    private Paint mPaintText;
-    private Paint mPaintLine;
+    private final Paint mPaintNormal;
+    private final Paint mPaintSelect;
+    private final Paint mPaintText;
+    private final Paint mPaintLine;
 
     private float mTextSizeNormal;
     private float mTextSizeSelect;
 
-    private float mTextAlphaSelect;
-    private float mTextAlphaNormal;
+    private final float mTextAlphaSelect;
+    private final float mTextAlphaNormal;
 
     private float mPaddingStart;
     private float mPaddingEnd;
@@ -57,11 +57,11 @@ public class MPickerView extends View {
     private int mHeight;
     private String mText;
 
-    private Timer mTimer;
+    private final Timer mTimer;
     private MTimerTask mTask;
-    private Handler mHandler;
-    private Context mContext;
-    private List<String> mData;
+    private final Handler mHandler;
+    private final Context mContext;
+    private final List<String> mData;
     private OnSelectListener mOnSelectListener;
 
 
@@ -209,7 +209,6 @@ public class MPickerView extends View {
                 }
                 mStartTouchY = event.getY();
                 invalidate();
-//                Log.i(TAG, "-mMoveDistance---" + mMoveDistance);
                 break;
             case MotionEvent.ACTION_UP:
                 if (Math.abs(mMoveDistance) < 0.0001) {
@@ -319,7 +318,7 @@ public class MPickerView extends View {
     }
 
     static class MHandler extends Handler {
-        private WeakReference<View> mWeakReference;
+        private final WeakReference<View> mWeakReference;
 
         MHandler(View view) {
             this.mWeakReference = new WeakReference<>(view);
