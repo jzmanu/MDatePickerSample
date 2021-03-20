@@ -18,7 +18,6 @@ android {
     }
     productFlavors {
     }
-    buildToolsVersion '28.0.3'
 
 }
 
