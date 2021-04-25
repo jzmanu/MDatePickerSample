@@ -56,6 +56,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     private int mGravity;
     private boolean isCanceledTouchOutside;
     private boolean isSupportTime;
+    private boolean isOnlyYearMonth;
     private boolean isTwelveHour;
     private float mConfirmTextSize;
     private float mCancelTextSize;
@@ -172,7 +173,8 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         params.gravity = mGravity;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setBackgroundDrawableResource(android.R.color.transparent);
-
+        // cancel dialog default padding.
+        window.getDecorView().setPadding(0, 0, 0, 0);
         setCanceledOnTouchOutside(isCanceledTouchOutside);
 
         if (mGravity == Gravity.BOTTOM) {
@@ -193,6 +195,12 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
 
         window.setBackgroundDrawableResource(android.R.color.white);
 
+        // support day
+        if (isOnlyYearMonth) {
+            isSupportTime = false;
+        }
+
+        // support time
         if (isSupportTime) {
             mpvDialogHour.setVisibility(View.VISIBLE);
             mpvDialogMinute.setVisibility(View.VISIBLE);
@@ -203,6 +211,10 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         } else {
             mpvDialogHour.setVisibility(View.GONE);
             mpvDialogMinute.setVisibility(View.GONE);
+
+            if (isOnlyYearMonth){
+                mpvDialogDay.setVisibility(View.GONE);
+            }
         }
 
         if (mConfirmTextSize != 0.0f && mConfirmTextSize != -1.0f) {
@@ -252,14 +264,17 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         int i = v.getId();
         if (i == R.id.tvDialogTopCancel || i == R.id.tvDialogBottomCancel) {
             dismiss();
-
         } else if (i == R.id.tvDialogTopConfirm || i == R.id.tvDialogBottomConfirm) {
             Log.i(TAG, "---" + mCurrentYear + "-" + mCurrentMonth + "-" + mCurrentDay + "-" + mCurrentHour + "-" + mCurrentMinute);
             if (mOnDateResultListener != null) {
                 if (isSupportTime) {
                     mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, mCurrentHour, mCurrentMinute));
                 } else {
-                    mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, 0, 0));
+                    if (isOnlyYearMonth){
+                        mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, 0, 0, 0));
+                    }else{
+                        mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, 0, 0));
+                    }
                 }
                 dismiss();
             }
@@ -309,6 +324,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         private int mGravity;
         private boolean isCanceledTouchOutside;
         private boolean isSupportTime;
+        private boolean isOnlyYearMonth;
         private boolean isTwelveHour;
         private float mConfirmTextSize;
         private float mCancelTextSize;
@@ -340,6 +356,11 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             return this;
         }
 
+        public Builder setOnlyYearMonth(boolean onlyYearMonth) {
+            isOnlyYearMonth = onlyYearMonth;
+            return this;
+        }
+
         public Builder setTwelveHour(boolean twelveHour) {
             isTwelveHour = twelveHour;
             return this;
@@ -368,6 +389,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             dialog.mTitle = this.mTitle;
             dialog.mGravity = this.mGravity;
             dialog.isSupportTime = this.isSupportTime;
+            dialog.isOnlyYearMonth = this.isOnlyYearMonth;
             dialog.isTwelveHour = this.isTwelveHour;
             dialog.mConfirmTextSize = this.mConfirmTextSize;
             dialog.mConfirmTextColor = this.mConfirmTextColor;

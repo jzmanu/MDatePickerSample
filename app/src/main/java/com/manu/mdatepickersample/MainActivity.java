@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         MDatePicker.create(this)
                 .setCanceledTouchOutside(true)
                 .setGravity(Gravity.BOTTOM)
-                .setSupportTime(true)
+                .setOnlyYearMonth(true)
                 .setTwelveHour(true)
                 .setOnDateResultListener(new MDatePicker.OnDateResultListener() {
                     @Override
