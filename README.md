@@ -15,14 +15,14 @@ MDatePicker 基本属性如下：
 
 ### 使用
 
-1. 在 build.gradle 文件中引入：
+1.在 build.gradle 文件中引入：
 
 
 ```java
 implementation 'com.github.jzmanu:MDatePickerSample:v1.0.2'
 ```
 
-2. MDatePicker 的使用和普通的 Dialog 一样，参考如下：
+2.MDatePicker 的使用和普通的 Dialog 一样，参考如下：
 
 ```java
 MDatePicker.create(this)
@@ -43,11 +43,11 @@ MDatePicker.create(this)
 ```
 ### 显示效果
 
-1. MPickView
+1.MPickView
 
 ![MPickView](https://cdn.nlark.com/yuque/0/2021/gif/644330/1616259412628-34df5914-095e-4ef6-8afe-4d9fb128054e.gif)
 
-2. MDatePicker
+2.MDatePicker
 
 ![MDatePicker](https://cdn.nlark.com/yuque/0/2021/gif/644330/1616259411686-8f8bec0f-fc98-4cbb-99c2-03ae7b18965b.gif)
 
@@ -74,4 +74,5 @@ MDatePicker.create(this)
 ### 联系作者
 
 个人微信公众号 **躬行之** 。
+
 ![image](https://cdn.nlark.com/yuque/0/2021/png/644330/1616259548010-7b8a24c3-393f-4b26-aa26-d01c28d0f538.png)
