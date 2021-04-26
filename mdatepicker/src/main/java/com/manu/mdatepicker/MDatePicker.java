@@ -271,7 +271,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
                     mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, mCurrentHour, mCurrentMinute));
                 } else {
                     if (isOnlyYearMonth){
-                        mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, 0, 0, 0));
+                        mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, 1, 0, 0));
                     }else{
                         mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, 0, 0));
                     }
