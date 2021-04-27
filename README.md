@@ -1,6 +1,8 @@
 [![](https://jitpack.io/v/jzmanu/MDatePickerSample.svg)](https://jitpack.io/#jzmanu/MDatePickerSample)
 
-#### 基本属性
+MDatePicker实现细节见文章：[手把手教你实现实现一个Android日期选择器 ](https://juejin.cn/post/6844904016283975687)
+
+#### 基本功能
 
 
 MDatePicker 基本属性如下：
@@ -17,16 +19,27 @@ MDatePicker 基本属性如下：
 设置月份默认值|setMonthValue(int monthValue)|当前月份
 设置天默认值|setDayValue(int dayValue)|当前天数
 
-### 使用
+### 使用说明
 
-1.在 build.gradle 文件中引入：
+1. 在项目根目录下的 build.gradle 文件中添加 jitpack 仓库，如下：
+
+```groovy
+allprojects {
+	repositories {
+		// ...
+		maven { url 'https://www.jitpack.io' }
+	}
+}
+```
+
+2. 在 app 下面的 build.gradle 文件中引入 MDatePicker，如下：
 
 
-```java
+```groovy
 implementation 'com.github.jzmanu:MDatePickerSample:v1.0.4'
 ```
 
-2.MDatePicker 的使用和普通的 Dialog 一样，参考如下：
+3. MDatePicker 的使用和普通的 Dialog 一样，参考如下：
 
 ```java
 MDatePicker.create(this)
@@ -45,13 +58,13 @@ MDatePicker.create(this)
     .build()
     .show();
 ```
-### 显示效果
+### 演示效果
 
-1.MPickView
+1. MPickView
 
 ![MPickView](https://cdn.nlark.com/yuque/0/2021/gif/644330/1616259412628-34df5914-095e-4ef6-8afe-4d9fb128054e.gif)
 
-2.MDatePicker
+2. MDatePicker
 
 ![MDatePicker](https://cdn.nlark.com/yuque/0/2021/gif/644330/1616259411686-8f8bec0f-fc98-4cbb-99c2-03ae7b18965b.gif)
 
