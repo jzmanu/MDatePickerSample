@@ -13,6 +13,9 @@ MDatePicker 基本属性如下：
 是否支持时间|setSupportTime(boolean supportTime)|false
 是否支持12小时制|setTwelveHour(boolean twelveHour)|false
 是否仅显示年月|setOnlyYearMonth(boolean onlyYearMonth)|false
+设置年份默认值|setYearValue(int yearValue)|当前年份
+设置月份默认值|setMonthValue(int monthValue)|当前月份
+设置天默认值|setDayValue(int dayValue)|当前天数
 
 ### 使用
 
@@ -20,7 +23,7 @@ MDatePicker 基本属性如下：
 
 
 ```java
-implementation 'com.github.jzmanu:MDatePickerSample:v1.0.3'
+implementation 'com.github.jzmanu:MDatePickerSample:v1.0.4'
 ```
 
 2.MDatePicker 的使用和普通的 Dialog 一样，参考如下：
@@ -72,8 +75,14 @@ MDatePicker.create(this)
 
 #### v1.0.3
 
-- 【修复】确定、取消位置显示异常
 - 【新增】仅显示年月功能
+- 【修复】确定、取消位置显示异常
+
+#### v1.0.4
+
+- 【新增】设置年月日初始值
+- 【修复】仅显示年月时月份回调错误
+- 【优化】添加日志开关
 
 欢迎在 [issue](https://github.com/jzmanu/MDatePickerSample/issues) 上反映问题，以便及时修复。
 

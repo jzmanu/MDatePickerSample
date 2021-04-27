@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(date);
                         SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-                        dateFormat.applyPattern("yyyy-MM");
+                        dateFormat.applyPattern("yyyy-MM-dd HH:mm");
                         Toast.makeText(MainActivity.this, dateFormat.format(new Date(date)), Toast.LENGTH_SHORT).show();
                     }
                 })

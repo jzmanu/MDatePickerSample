@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -28,7 +28,8 @@ import static com.manu.mdatepicker.Util.getScreenWidth;
  */
 public class MDatePicker extends Dialog implements MPickerView.OnSelectListener, View.OnClickListener {
     private static final String TAG = MDatePicker.class.getSimpleName();
-    private static final int SPACE = 5;
+    private static final int YEAR_SPACE = 5;
+    private static final int MAX_YEAR = 9999;
 
     private Context mContext;
 
@@ -54,6 +55,9 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
 
     private String mTitle;
     private int mGravity;
+    private int mYearValue;
+    private int mMonthValue;
+    private int mDayValue;
     private boolean isCanceledTouchOutside;
     private boolean isSupportTime;
     private boolean isOnlyYearMonth;
@@ -76,7 +80,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         onData();
     }
 
-    public static Builder create(Context context){
+    public static Builder create(Context context) {
         return new Builder(context);
     }
 
@@ -109,8 +113,6 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
 
     private void onData() {
         Calendar mCalendar = Calendar.getInstance();
-        int mMaxYear = mCalendar.get(Calendar.YEAR) + SPACE;
-        int mMinYear = mCalendar.get(Calendar.YEAR) - SPACE;
 
         List<String> mDataYear = new ArrayList<>();
         List<String> mDataMonth = new ArrayList<>();
@@ -123,14 +125,24 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         mpvDialogHour.setText(mContext.getString(R.string.strDateHour));
         mpvDialogMinute.setText(mContext.getString(R.string.strDateMinute));
 
-        //Year
+        // Year
+        if (mYearValue > MAX_YEAR || mYearValue < YEAR_SPACE) {
+            mCurrentYear = mCalendar.get(Calendar.YEAR);
+            if (mYearValue != -1) {
+                Log.w(TAG, "year init value is illegal, so select current year.");
+            }
+        } else {
+            mCurrentYear = mYearValue;
+        }
+
+        int mMaxYear = mCurrentYear + YEAR_SPACE;
+        int mMinYear = mCurrentYear - YEAR_SPACE;
         for (int i = mMinYear; i <= mMaxYear; i++) {
             mDataYear.add(String.valueOf(i));
         }
         mpvDialogYear.setData(mDataYear);
-        mCurrentYear = mCalendar.get(Calendar.YEAR);
 
-        //Month+
+        // Month
         for (int i = 1; i < 13; i++) {
             if (i < 10) {
                 mDataMonth.add("0" + i);
@@ -139,14 +151,30 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             }
         }
         mpvDialogMonth.setData(mDataMonth);
-        mCurrentMonth = mCalendar.get(Calendar.MONTH) + 1;
+
+        if (mMonthValue > 12 || mMonthValue < 1) {
+            mCurrentMonth = mCalendar.get(Calendar.MONTH) + 1;
+            if (mYearValue != -1) {
+                Log.w(TAG, "month init value is illegal, so select current month.");
+            }
+        } else {
+            mCurrentMonth = mMonthValue;
+        }
         mpvDialogMonth.setDefaultValue(String.valueOf(mCurrentMonth), DateType.MONTH, "-1");
 
-        //Day
-        mCurrentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+        // Day
+        int daySize = getDayByYearMonth(mCurrentYear, mCurrentMonth);
+        if (mDayValue > daySize || mDayValue < 1) {
+            mCurrentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+            if (mYearValue != -1) {
+                Log.w(TAG, "day init value is illegal, so select current day.");
+            }
+        } else {
+            mCurrentDay = mDayValue;
+        }
         updateDay(mCurrentYear, mCurrentMonth);
 
-        //Hour
+        // Hour
         if (isTwelveHour) {
             mCurrentHour = mCalendar.get(Calendar.HOUR);
             addTimeData(mDataHour, 13, 12);
@@ -159,13 +187,13 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             mpvDialogHour.setDefaultValue(String.valueOf(mCurrentHour), DateType.HOUR_12, "24");
         }
 
-        //Minute
+        // Minute
         addTimeData(mDataMinute, 61, 60);
         mpvDialogMinute.setData(mDataMinute);
         mCurrentMinute = mCalendar.get(Calendar.MINUTE);
         mpvDialogMinute.setDefaultValue(String.valueOf(mCurrentMinute), DateType.MINUTE, "60");
 
-        //Setting
+        // Setting
         if (!TextUtils.isEmpty(mTitle)) tvDialogTitle.setText(mTitle);
 
         Window window = getWindow();
@@ -192,8 +220,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             tvDialogTopConfirm.setVisibility(View.GONE);
             llDialog.setBackgroundResource(R.drawable.dialog_date_picker_center_bg);
         }
-
-        window.setBackgroundDrawableResource(android.R.color.white);
+//        window.setBackgroundDrawableResource(android.R.color.white);
 
         // support day
         if (isOnlyYearMonth) {
@@ -205,14 +232,14 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             mpvDialogHour.setVisibility(View.VISIBLE);
             mpvDialogMinute.setVisibility(View.VISIBLE);
             float weight = -0.4f * mContext.getResources().getDisplayMetrics().density + 2.6f;
-            Log.i(TAG,"weight:"+weight);
+            Log.i(TAG, "weight:" + weight);
             mpvDialogYear.setLayoutParams(
                     new LinearLayout.LayoutParams(0, dpToPx(mContext, 160), weight));
         } else {
             mpvDialogHour.setVisibility(View.GONE);
             mpvDialogMinute.setVisibility(View.GONE);
 
-            if (isOnlyYearMonth){
+            if (isOnlyYearMonth) {
                 mpvDialogDay.setVisibility(View.GONE);
             }
         }
@@ -256,7 +283,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         } else if (i == R.id.mpvDialogMinute) {
             mCurrentMinute = Integer.parseInt(data);
         }
-        Log.i(TAG,  mCurrentYear + "-" + mCurrentMonth + "-" + mCurrentDay + "-" + mCurrentHour + "-" + mCurrentMinute);
+        Log.i(TAG, mCurrentYear + "-" + mCurrentMonth + "-" + mCurrentDay + " " + mCurrentHour + ":" + mCurrentMinute);
     }
 
     @Override
@@ -265,14 +292,14 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         if (i == R.id.tvDialogTopCancel || i == R.id.tvDialogBottomCancel) {
             dismiss();
         } else if (i == R.id.tvDialogTopConfirm || i == R.id.tvDialogBottomConfirm) {
-            Log.i(TAG, "---" + mCurrentYear + "-" + mCurrentMonth + "-" + mCurrentDay + "-" + mCurrentHour + "-" + mCurrentMinute);
+            Log.i(TAG, mCurrentYear + "-" + mCurrentMonth + "-" + mCurrentDay + " " + mCurrentHour + ":" + mCurrentMinute);
             if (mOnDateResultListener != null) {
                 if (isSupportTime) {
                     mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, mCurrentHour, mCurrentMinute));
                 } else {
-                    if (isOnlyYearMonth){
+                    if (isOnlyYearMonth) {
                         mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, 1, 0, 0));
-                    }else{
+                    } else {
                         mOnDateResultListener.onDateResult(getDateMills(mCurrentYear, mCurrentMonth, mCurrentDay, 0, 0));
                     }
                 }
@@ -322,6 +349,9 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         private final Context mContext;
         private String mTitle;
         private int mGravity;
+        private int mYearValue = -1;
+        private int mMonthValue = -1;
+        private int mDayValue = -1;
         private boolean isCanceledTouchOutside;
         private boolean isSupportTime;
         private boolean isOnlyYearMonth;
@@ -343,6 +373,21 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
 
         public Builder setGravity(int mGravity) {
             this.mGravity = mGravity;
+            return this;
+        }
+
+        public Builder setYearValue(@IntRange(from = 5, to = 9999) int yearValue) {
+            this.mYearValue = yearValue;
+            return this;
+        }
+
+        public Builder setMonthValue(@IntRange(from = 1, to = 12) int monthValue) {
+            this.mMonthValue = monthValue;
+            return this;
+        }
+
+        public Builder setDayValue(int dayValue) {
+            this.mDayValue = dayValue;
             return this;
         }
 
@@ -388,6 +433,9 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             dialog.mContext = this.mContext;
             dialog.mTitle = this.mTitle;
             dialog.mGravity = this.mGravity;
+            dialog.mYearValue = this.mYearValue;
+            dialog.mMonthValue = this.mMonthValue;
+            dialog.mDayValue = this.mDayValue;
             dialog.isSupportTime = this.isSupportTime;
             dialog.isOnlyYearMonth = this.isOnlyYearMonth;
             dialog.isTwelveHour = this.isTwelveHour;
