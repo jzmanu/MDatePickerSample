@@ -36,7 +36,7 @@ allprojects {
 
 
 ```groovy
-implementation 'com.github.jzmanu:MDatePickerSample:v1.0.4'
+implementation 'com.github.jzmanu:MDatePickerSample:v1.0.5'
 ```
 
 3. MDatePicker 的使用和普通的 Dialog 一样，参考如下：
@@ -96,6 +96,10 @@ MDatePicker.create(this)
 - 【新增】设置年月日初始值
 - 【修复】仅显示年月时月份回调错误
 - 【优化】添加日志开关
+
+#### v1.0.5
+
+- 【修复】修复选择月份时天数更新异常
 
 欢迎在 [issue](https://github.com/jzmanu/MDatePickerSample/issues) 上反映问题，以便及时修复。
 

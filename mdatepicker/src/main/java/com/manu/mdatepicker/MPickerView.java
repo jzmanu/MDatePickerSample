@@ -281,7 +281,7 @@ public class MPickerView extends View {
         }
     }
 
-    public void setDefaultValue(@NonNull String value, @DateType.Type String type, String replace) {
+    protected void setDefaultValue(@NonNull String value, @DateType.Type String type, String replace) {
         if (mData.size() > 0) {
             for (int i = 0; i < mData.size(); i++) {
                 String data = getStringToNumber(type, mData.get(i), replace);

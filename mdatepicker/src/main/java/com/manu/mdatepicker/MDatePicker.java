@@ -313,17 +313,22 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     }
 
     private int getDayByYearMonth(int year, int month) {
-        Calendar mCalendar = Calendar.getInstance();
-        mCalendar.set(Calendar.YEAR, year);
-        mCalendar.set(Calendar.MONTH, month - 1);
-        return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     private void updateDay(int year, int month) {
         List<String> mDataDay = new ArrayList<>();
         int daySize = getDayByYearMonth(year, month);
+        Log.i(TAG,"updateDay > year:"+year+",month:"+month+",daySize:"+daySize+",mCurrentDay:"+mCurrentDay);
         addTimeData(mDataDay, daySize + 1, 32);
         mpvDialogDay.setData(mDataDay);
+        if (mCurrentDay > mDataDay.size()){
+            mCurrentDay = mDataDay.size();
+        }
         mpvDialogDay.setDefaultValue(String.valueOf(mCurrentDay), DateType.DAY, "-1");
     }
 

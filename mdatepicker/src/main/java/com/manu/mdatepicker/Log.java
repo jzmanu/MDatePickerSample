@@ -6,7 +6,7 @@ package com.manu.mdatepicker;
  */
 public class Log {
     private static final String TAG = "MDatePicker";
-    private static final boolean debug = true;
+    private static final boolean debug = false;
 
     public static void i(String tag, String msg) {
         if (debug) {
