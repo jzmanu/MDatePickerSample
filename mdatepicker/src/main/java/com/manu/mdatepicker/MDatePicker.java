@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 
 import static com.manu.mdatepicker.Util.dpToPx;
 import static com.manu.mdatepicker.Util.getScreenWidth;
