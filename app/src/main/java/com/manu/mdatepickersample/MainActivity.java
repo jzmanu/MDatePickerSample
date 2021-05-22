@@ -1,20 +1,21 @@
 package com.manu.mdatepickersample;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.manu.mdatepicker.MDatePicker;
 import com.manu.mdatepicker.MPickerView;
+import com.manu.mdatepickersample.databinding.ActivityMainBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        MPickerView mPickerView = findViewById(R.id.mPickerView);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         List<String> list = new ArrayList<>();
         list.add("2014");
         list.add("2015");
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         list.add("2022");
         list.add("2023");
         list.add("2024");
-        mPickerView.setText("年");
-        mPickerView.setData(list);
+        binding.mPickerView.setText("年");
+        binding.mPickerView.setData(list);
     }
 
     public void btnClickDateBottom(View view) {

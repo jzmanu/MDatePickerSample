@@ -18,6 +18,9 @@ android {
     }
     productFlavors {
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
