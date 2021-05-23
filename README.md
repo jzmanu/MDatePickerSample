@@ -18,6 +18,12 @@ MDatePicker 基本属性如下：
 设置年份默认值|setYearValue(int yearValue)|当前年份
 设置月份默认值|setMonthValue(int monthValue)|当前月份
 设置天默认值|setDayValue(int dayValue)|当前天数
+设置字体大小类型|setFontType(String type)|FlontType.NORMAL
+设置确定的颜色|setConfirmTextColor(int confirmTextColor)|默认样式
+设置取消的颜色|setCancelTextColor(int cancelTextColor)|默认样式
+设置标题的颜色|setTitleTextColor(int titleTextColor)|默认样式
+设置日期显示的颜色|setDateNormalTextColor(int normalTextColor)|默认样式
+设置选中的颜色|setDateSelectTextColor(int selectTextColor)|默认样式
 
 ### 使用说明
 
@@ -36,7 +42,7 @@ allprojects {
 
 
 ```groovy
-implementation 'com.github.jzmanu:MDatePickerSample:v1.0.5'
+implementation 'com.github.jzmanu:MDatePickerSample:v1.0.6'
 ```
 
 3. MDatePicker 的使用和普通的 Dialog 一样，参考如下：
@@ -100,6 +106,13 @@ MDatePicker.create(this)
 #### v1.0.5
 
 - 【修复】修复选择月份时天数更新异常
+
+##### v1.0.6
+
+- 【适配】切换到AndroidX
+- 【新增】设置字体大小
+- 【新增】设置文字颜色
+- 【优化】微调文字绘制位置
 
 欢迎在 [issue](https://github.com/jzmanu/MDatePickerSample/issues) 上反映问题，以便及时修复。
 
