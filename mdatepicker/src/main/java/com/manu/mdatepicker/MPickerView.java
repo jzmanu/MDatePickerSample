@@ -201,7 +201,7 @@ public class MPickerView extends View {
         float x = mWidth / 2.0f;
         float y = mHeight / 2.0f + type * space;
         Paint.FontMetricsInt fmi = paint.getFontMetricsInt();
-        float baseline = y + (fmi.bottom - fmi.top) / 2.0f - fmi.descent;
+        float baseline = y + (fmi.bottom - fmi.top) / 2.0f - fmi.descent -2;
         float width = mPaintText.measureText("年");
         canvas.drawText(mData.get(mSelectPosition + type * position), x - width / 2 + mPaddingStart - mPaddingEnd, baseline, paint);
 
@@ -389,7 +389,7 @@ public class MPickerView extends View {
     }
 
     static class MTimerTask extends TimerTask {
-        Handler handler;
+        final Handler handler;
 
         MTimerTask(Handler handler) {
             this.handler = handler;
