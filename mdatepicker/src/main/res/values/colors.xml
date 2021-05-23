@@ -7,4 +7,7 @@
     <color name="colorTitle">#000000</color>
     <color name="colorDefaultSetting">#cf1010</color>
     <color name="colorDivider">#dbdbdb</color>
+
+    <color name="colorPickViewDefaultSelect">#ffa000</color>
+    <color name="colorPickViewDefaultNormal">#a2a2a2</color>
 </resources>

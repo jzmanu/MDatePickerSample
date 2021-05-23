@@ -1,8 +1,11 @@
 package com.manu.mdatepickersample;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.manu.mdatepicker.FontType;

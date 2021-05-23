@@ -1,18 +1,24 @@
 package com.manu.mdatepicker;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -30,7 +36,9 @@ public class MPickerView extends View {
     private static final String TAG = MPickerView.class.getSimpleName();
 
     public static final float SPEED = 5;
-    //行距与mTextSizeNormal之比，保证View内显示的内容在适当的位置
+    /**
+     * 行距与mTextSizeNormal之比，保证View内显示的内容在适当的位置
+     */
     private final float RATE = 2.7f;
 
     private final Paint mPaintNormal;
@@ -40,6 +48,12 @@ public class MPickerView extends View {
 
     private float mTextSizeNormal;
     private float mTextSizeSelect;
+    private @ColorInt
+    int mNormalColor;
+    private @ColorInt
+    int mSelectColor;
+    private int mCurrentSelectColor;
+    private int mCurrentNormalColor;
 
     private final float mTextAlphaSelect;
     private final float mTextAlphaNormal;
@@ -47,11 +61,17 @@ public class MPickerView extends View {
     private float mPaddingStart;
     private float mPaddingEnd;
 
-    // 选中的位置
+    /**
+     * 选中的位置
+     */
     private int mSelectPosition;
-    // 开始触摸的位置
+    /**
+     * 开始触摸的位置
+     */
     private float mStartTouchY;
-    // 手指滑动的距离
+    /**
+     * 手指滑动的距离
+     */
     private float mMoveDistance;
     private int mWidth;
     private int mHeight;
@@ -62,8 +82,8 @@ public class MPickerView extends View {
     private final Handler mHandler;
     private final Context mContext;
     private final List<String> mData;
+    private final Resources mResources;
     private OnSelectListener mOnSelectListener;
-
 
     public MPickerView(Context context) {
         this(context, null);
@@ -76,6 +96,7 @@ public class MPickerView extends View {
     public MPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        mResources = mContext.getResources();
         mPaintNormal = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintSelect = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintText = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -87,14 +108,33 @@ public class MPickerView extends View {
         mPaintText.setTextSize(dpToPx(context, 15));
         mPaintSelect.setColor(0xffa000);
         mPaintNormal.setColor(0xa2a2a2);
-        mPaintText.setColor(Color.parseColor("#ffa000"));
-        mPaintLine.setColor(Color.parseColor("#dbdbdb"));
+        mPaintText.setColor(mResources.getColor(R.color.colorPickViewDefaultSelect));
+        mPaintLine.setColor(mContext.getResources().getColor(R.color.colorDivider));
         mPaintLine.setStrokeWidth(dpToPx(context, 0.5f));
         mHandler = new MHandler(this);
         mData = new ArrayList<>();
         mTimer = new Timer();
         mTextAlphaSelect = 255;
         mTextAlphaNormal = 120;
+    }
+
+    public void setNormalColor(@ColorInt int normalColor) {
+        this.mNormalColor = normalColor;
+        if (mNormalColor != mCurrentNormalColor) {
+            mCurrentNormalColor = mNormalColor;
+            mPaintNormal.setColor(mNormalColor != 0 ? mNormalColor : 0xa2a2a2);
+            invalidate();
+        }
+    }
+
+    public void setSelectColor(@ColorInt int selectColor) {
+        this.mSelectColor = selectColor;
+        if (mSelectColor != mCurrentSelectColor) {
+            mCurrentSelectColor = mSelectColor;
+            mPaintSelect.setColor(mSelectColor != 0 ? mSelectColor : 0xffa000);
+            mPaintText.setColor(mSelectColor != 0 ? mSelectColor : 0xffa000);
+            invalidate();
+        }
     }
 
     public void setOnSelectListener(OnSelectListener onSelectListener) {
@@ -108,7 +148,7 @@ public class MPickerView extends View {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        mTextSizeSelect = mContext.getResources().getDisplayMetrics().density * 70 / 3;
+        mTextSizeSelect = mResources.getDisplayMetrics().density * 70 / 3;
         mTextSizeNormal = mTextSizeSelect / 2f;
 
         // 默认宽高
@@ -137,13 +177,13 @@ public class MPickerView extends View {
         super.onDraw(canvas);
         mPaddingStart = getPaddingStart();
         mPaddingEnd = getPaddingEnd();
-        //绘制中间位置
+        // 绘制中间位置
         draw(canvas, 1, 0, mPaintSelect);
-        //绘制上方数据
+        // 绘制上方数据
         for (int i = 1; i < mSelectPosition - 1; i++) {
             draw(canvas, -1, i, mPaintNormal);
         }
-        //绘制下方数据
+        // 绘制下方数据
         for (int i = 1; (mSelectPosition + i) < mData.size(); i++) {
             draw(canvas, 1, i, mPaintNormal);
         }
@@ -200,10 +240,12 @@ public class MPickerView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 mMoveDistance += (event.getY() - mStartTouchY);
-                if (mMoveDistance > RATE * mTextSizeNormal / 2) {//向下滑动
+                if (mMoveDistance > RATE * mTextSizeNormal / 2) {
+                    // 向下滑动
                     moveTailToHead();
                     mMoveDistance = mMoveDistance - RATE * mTextSizeNormal;
-                } else if (mMoveDistance < -RATE * mTextSizeNormal / 2) {//向上滑动
+                } else if (mMoveDistance < -RATE * mTextSizeNormal / 2) {
+                    // 向上滑动
                     moveHeadToTail();
                     mMoveDistance = mMoveDistance + RATE * mTextSizeNormal;
                 }

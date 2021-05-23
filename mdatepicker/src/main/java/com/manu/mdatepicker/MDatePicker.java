@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 
@@ -54,8 +55,16 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     private boolean isSupportTime;
     private boolean isOnlyYearMonth;
     private boolean isTwelveHour;
-    private int mConfirmTextColor;
-    private int mCancelTextColor;
+    private @ColorInt
+    int mConfirmTextColor;
+    private @ColorInt
+    int mCancelTextColor;
+    private @ColorInt
+    int mTitleTextColor;
+    private @ColorInt
+    int mDateNormalTextColor;
+    private @ColorInt
+    int mDateSelectTextColor;
 
     private OnDateResultListener mOnDateResultListener;
 
@@ -183,6 +192,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         window.getDecorView().setPadding(0, 0, 0, 0);
         setCanceledOnTouchOutside(isCanceledTouchOutside);
 
+        // gravity
         if (mGravity == Gravity.BOTTOM) {
             params.width = WindowManager.LayoutParams.MATCH_PARENT;
             binding.llDialogBottom.setVisibility(View.GONE);
@@ -230,14 +240,35 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         binding.tvDialogBottomCancel.setTextSize(fontSize);
         binding.tvDialogTitle.setTextSize(fontSize + 1);
 
-        if (mConfirmTextColor != 0 && mConfirmTextColor != -1) {
-            binding.tvDialogTopConfirm.setTextColor(mConfirmTextColor);
+        // set text color
+        if (mConfirmTextColor != 0) {
             binding.tvDialogBottomConfirm.setTextColor(mConfirmTextColor);
+            binding.tvDialogTopConfirm.setTextColor(mConfirmTextColor);
         }
 
-        if (mCancelTextColor != 0 && mCancelTextColor != -1) {
+        if (mCancelTextColor != 0) {
             binding.tvDialogTopCancel.setTextColor(mCancelTextColor);
             binding.tvDialogBottomCancel.setTextColor(mCancelTextColor);
+        }
+
+        if (mTitleTextColor != 0) {
+            binding.tvDialogTitle.setTextColor(mTitleTextColor);
+        }
+
+        if (mDateNormalTextColor != 0) {
+            binding.mpvDialogYear.setNormalColor(mDateNormalTextColor);
+            binding.mpvDialogMonth.setNormalColor(mDateNormalTextColor);
+            binding.mpvDialogDay.setNormalColor(mDateNormalTextColor);
+            binding.mpvDialogHour.setNormalColor(mDateNormalTextColor);
+            binding.mpvDialogMinute.setNormalColor(mDateNormalTextColor);
+        }
+
+        if (mDateSelectTextColor != 0) {
+            binding.mpvDialogYear.setSelectColor(mDateSelectTextColor);
+            binding.mpvDialogMonth.setSelectColor(mDateSelectTextColor);
+            binding.mpvDialogDay.setSelectColor(mDateSelectTextColor);
+            binding.mpvDialogHour.setSelectColor(mDateSelectTextColor);
+            binding.mpvDialogMinute.setSelectColor(mDateSelectTextColor);
         }
         window.setAttributes(params);
     }
@@ -353,8 +384,16 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         private boolean isSupportTime;
         private boolean isOnlyYearMonth;
         private boolean isTwelveHour;
-        private int mConfirmTextColor;
-        private int mCancelTextColor;
+        private @ColorInt
+        int mConfirmTextColor;
+        private @ColorInt
+        int mCancelTextColor;
+        private @ColorInt
+        int mTitleTextColor;
+        private @ColorInt
+        int mDateNormalTextColor;
+        private @ColorInt
+        int mDateSelectTextColor;
         private String mFontType = FontType.MEDIUM;
         private OnDateResultListener mOnDateResultListener;
 
@@ -412,6 +451,31 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             return this;
         }
 
+        public Builder setConfirmTextColor(@ColorInt int confirmTextColor) {
+            this.mConfirmTextColor = confirmTextColor;
+            return this;
+        }
+
+        public Builder setCancelTextColor(@ColorInt int cancelTextColor) {
+            this.mCancelTextColor = cancelTextColor;
+            return this;
+        }
+
+        public Builder setTitleTextColor(@ColorInt int titleTextColor) {
+            this.mTitleTextColor = titleTextColor;
+            return this;
+        }
+
+        public Builder setDateNormalTextColor(@ColorInt int normalTextColor) {
+            this.mDateNormalTextColor = normalTextColor;
+            return this;
+        }
+
+        public Builder setDateSelectTextColor(@ColorInt int selectTextColor) {
+            this.mDateSelectTextColor = selectTextColor;
+            return this;
+        }
+
         public Builder setOnDateResultListener(OnDateResultListener onDateResultListener) {
             this.mOnDateResultListener = onDateResultListener;
             return this;
@@ -431,6 +495,9 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             dialog.isTwelveHour = this.isTwelveHour;
             dialog.mConfirmTextColor = this.mConfirmTextColor;
             dialog.mCancelTextColor = this.mCancelTextColor;
+            dialog.mTitleTextColor = this.mTitleTextColor;
+            dialog.mDateNormalTextColor = this.mDateNormalTextColor;
+            dialog.mDateSelectTextColor = this.mDateSelectTextColor;
             dialog.isCanceledTouchOutside = this.isCanceledTouchOutside;
             dialog.mOnDateResultListener = this.mOnDateResultListener;
         }
