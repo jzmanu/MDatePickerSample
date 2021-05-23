@@ -5,8 +5,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.manu.mdatepicker.FontType;
 import com.manu.mdatepicker.MDatePicker;
-import com.manu.mdatepicker.MPickerView;
 import com.manu.mdatepickersample.databinding.ActivityMainBinding;
 
 import java.text.SimpleDateFormat;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 .setGravity(Gravity.BOTTOM)
                 .setOnlyYearMonth(true)
                 .setTwelveHour(true)
+                .setFontType(FontType.LARGE)
                 .setOnDateResultListener(new MDatePicker.OnDateResultListener() {
                     @Override
                     public void onDateResult(long date) {
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 .setCanceledTouchOutside(true)
                 .setSupportTime(true)
                 .setTwelveHour(true)
+                .setFontType(FontType.NORMAL)
                 .setOnDateResultListener(new MDatePicker.OnDateResultListener() {
                     @Override
                     public void onDateResult(long date) {

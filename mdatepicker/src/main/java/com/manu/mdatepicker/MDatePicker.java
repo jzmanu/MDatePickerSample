@@ -3,6 +3,7 @@ package com.manu.mdatepicker;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -34,8 +35,8 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     private static final int MAX_YEAR = 9999;
 
     private Context mContext;
-
     private DialogDatePickerBinding binding;
+    private Resources mResources;
 
     private int mCurrentYear;
     private int mCurrentMonth;
@@ -44,6 +45,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     private int mCurrentMinute;
 
     private String mTitle;
+    private String mFontType;
     private int mGravity;
     private int mYearValue;
     private int mMonthValue;
@@ -52,10 +54,9 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     private boolean isSupportTime;
     private boolean isOnlyYearMonth;
     private boolean isTwelveHour;
-    private float mConfirmTextSize;
-    private float mCancelTextSize;
     private int mConfirmTextColor;
     private int mCancelTextColor;
+
     private OnDateResultListener mOnDateResultListener;
 
     private MDatePicker(@NonNull Context context) {
@@ -90,7 +91,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
 
     private void onData() {
         Calendar mCalendar = Calendar.getInstance();
-
+        mResources = mContext.getResources();
         List<String> mDataYear = new ArrayList<>();
         List<String> mDataMonth = new ArrayList<>();
         List<String> mDataHour = new ArrayList<>();
@@ -208,7 +209,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         if (isSupportTime) {
             binding.mpvDialogHour.setVisibility(View.VISIBLE);
             binding.mpvDialogMinute.setVisibility(View.VISIBLE);
-            float weight = -0.4f * mContext.getResources().getDisplayMetrics().density + 2.6f;
+            float weight = -0.4f * mResources.getDisplayMetrics().density + 2.6f;
             Log.i(TAG, "weight:" + weight);
             binding.mpvDialogYear.setLayoutParams(
                     new LinearLayout.LayoutParams(0, dpToPx(mContext, 160), weight));
@@ -221,19 +222,17 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             }
         }
 
-        if (mConfirmTextSize != 0.0f && mConfirmTextSize != -1.0f) {
-            binding.tvDialogTopConfirm.setTextSize(mConfirmTextSize);
-            binding.tvDialogBottomConfirm.setTextSize(mConfirmTextSize);
-        }
+        // set font size
+        float fontSize = getTextSize(mFontType);
+        binding.tvDialogTopConfirm.setTextSize(fontSize);
+        binding.tvDialogTopCancel.setTextSize(fontSize);
+        binding.tvDialogBottomConfirm.setTextSize(fontSize);
+        binding.tvDialogBottomCancel.setTextSize(fontSize);
+        binding.tvDialogTitle.setTextSize(fontSize + 1);
 
         if (mConfirmTextColor != 0 && mConfirmTextColor != -1) {
             binding.tvDialogTopConfirm.setTextColor(mConfirmTextColor);
             binding.tvDialogBottomConfirm.setTextColor(mConfirmTextColor);
-        }
-
-        if (mCancelTextSize != 0.0f && mCancelTextSize != -1.0f) {
-            binding.tvDialogTopCancel.setTextSize(mCancelTextSize);
-            binding.tvDialogBottomCancel.setTextSize(mCancelTextSize);
         }
 
         if (mCancelTextColor != 0 && mCancelTextColor != -1) {
@@ -300,10 +299,10 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
     private void updateDay(int year, int month) {
         List<String> mDataDay = new ArrayList<>();
         int daySize = getDayByYearMonth(year, month);
-        Log.i(TAG,"updateDay > year:"+year+",month:"+month+",daySize:"+daySize+",mCurrentDay:"+mCurrentDay);
+        Log.i(TAG, "updateDay > year:" + year + ",month:" + month + ",daySize:" + daySize + ",mCurrentDay:" + mCurrentDay);
         addTimeData(mDataDay, daySize + 1, 32);
         binding.mpvDialogDay.setData(mDataDay);
-        if (mCurrentDay > mDataDay.size()){
+        if (mCurrentDay > mDataDay.size()) {
             mCurrentDay = mDataDay.size();
         }
         binding.mpvDialogDay.setDefaultValue(String.valueOf(mCurrentDay), DateType.DAY, "-1");
@@ -327,6 +326,22 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         return calendar.getTimeInMillis();
     }
 
+    private float getTextSize(@FontType.Type String type) {
+        float fontSize;
+        if (FontType.LARGE.equals(type)) {
+            fontSize = mResources.getDimension(R.dimen.date_picker_setting_large);
+        } else if (FontType.MEDIUM.equals(type)) {
+            fontSize = mResources.getDimension(R.dimen.date_picker_setting_medium);
+        } else if (FontType.NORMAL.equals(type)) {
+            fontSize = mResources.getDimension(R.dimen.date_picker_setting_normal);
+        } else if (FontType.SMALL.equals(type)) {
+            fontSize = mResources.getDimension(R.dimen.date_picker_setting_small);
+        } else {
+            fontSize = mResources.getDimension(R.dimen.date_picker_setting_normal);
+        }
+        return Util.pxToSp(mContext, fontSize);
+    }
+
     public static class Builder {
         private final Context mContext;
         private String mTitle;
@@ -338,10 +353,9 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
         private boolean isSupportTime;
         private boolean isOnlyYearMonth;
         private boolean isTwelveHour;
-        private float mConfirmTextSize;
-        private float mCancelTextSize;
         private int mConfirmTextColor;
         private int mCancelTextColor;
+        private String mFontType = FontType.MEDIUM;
         private OnDateResultListener mOnDateResultListener;
 
         public Builder(Context mContext) {
@@ -393,15 +407,8 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             return this;
         }
 
-        public Builder setConfirmStatus(float textSize, int textColor) {
-            this.mConfirmTextSize = textSize;
-            this.mConfirmTextColor = textColor;
-            return this;
-        }
-
-        public Builder setCancelStatus(float textSize, int textColor) {
-            this.mCancelTextSize = textSize;
-            this.mCancelTextColor = textColor;
+        public Builder setFontType(@FontType.Type String type) {
+            this.mFontType = type;
             return this;
         }
 
@@ -414,6 +421,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             if (this.mGravity == 0) this.mGravity = Gravity.CENTER;
             dialog.mContext = this.mContext;
             dialog.mTitle = this.mTitle;
+            dialog.mFontType = this.mFontType;
             dialog.mGravity = this.mGravity;
             dialog.mYearValue = this.mYearValue;
             dialog.mMonthValue = this.mMonthValue;
@@ -421,9 +429,7 @@ public class MDatePicker extends Dialog implements MPickerView.OnSelectListener,
             dialog.isSupportTime = this.isSupportTime;
             dialog.isOnlyYearMonth = this.isOnlyYearMonth;
             dialog.isTwelveHour = this.isTwelveHour;
-            dialog.mConfirmTextSize = this.mConfirmTextSize;
             dialog.mConfirmTextColor = this.mConfirmTextColor;
-            dialog.mCancelTextSize = this.mCancelTextSize;
             dialog.mCancelTextColor = this.mCancelTextColor;
             dialog.isCanceledTouchOutside = this.isCanceledTouchOutside;
             dialog.mOnDateResultListener = this.mOnDateResultListener;

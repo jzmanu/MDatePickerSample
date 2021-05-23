@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--width、height-->
+    <dimen name="date_picker_max_width">300dp</dimen>
+    <dimen name="date_picker_setting_height">40dp</dimen>
+    <dimen name="date_picker_view_height">160dp</dimen>
+    <!--confirm、cancel font size-->
+    <dimen name="date_picker_setting_large">18sp</dimen>
+    <dimen name="date_picker_setting_medium">16sp</dimen>
+    <dimen name="date_picker_setting_normal">15sp</dimen>
+    <dimen name="date_picker_setting_small">14dp</dimen>
+
+    <!--title font size-->
+    <dimen name="date_picker_title_large">20sp</dimen>
+    <dimen name="date_picker_title_medium">18sp</dimen>
+    <dimen name="date_picker_title_normal">16sp</dimen>
+    <dimen name="date_picker_title_small">15dp</dimen>
+
+</resources>

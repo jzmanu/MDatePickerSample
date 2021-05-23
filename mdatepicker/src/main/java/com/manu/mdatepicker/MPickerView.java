@@ -47,11 +47,11 @@ public class MPickerView extends View {
     private float mPaddingStart;
     private float mPaddingEnd;
 
-    //选中的位置
+    // 选中的位置
     private int mSelectPosition;
-    //开始触摸的位置
+    // 开始触摸的位置
     private float mStartTouchY;
-    //手指滑动的距离
+    // 手指滑动的距离
     private float mMoveDistance;
     private int mWidth;
     private int mHeight;
@@ -111,7 +111,7 @@ public class MPickerView extends View {
         mTextSizeSelect = mContext.getResources().getDisplayMetrics().density * 70 / 3;
         mTextSizeNormal = mTextSizeSelect / 2f;
 
-        //默认宽高
+        // 默认宽高
         mPaintSelect.setTextSize(mTextSizeSelect);
         mPaintNormal.setTextSize(mTextSizeNormal);
         int mDefaultWidth = (int) (mPaintSelect.measureText("0000") + mPaintText.measureText("时") * 2);
